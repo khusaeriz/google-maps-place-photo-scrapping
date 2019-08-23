@@ -28,8 +28,9 @@ const http = require('http');
 			document.querySelector('.section-image-pack-image-container').click();
 		});
 		// await page.click('.section-image-pack-image-container'); // error on ubuntu server 16.04
+		
 		await page.waitForSelector('.gallery-image-high-res.loaded');
-		await page.waitFor(500); // wait more than 1 gallery image loaded
+		await page.waitFor(500); // wait for more than 1 gallery image loaded
 		
 		const img = await page.evaluate(() => {
 			const gallery = document.querySelectorAll('.gallery-image-high-res.loaded');
