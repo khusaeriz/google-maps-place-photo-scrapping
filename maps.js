@@ -27,14 +27,20 @@ const http = require('http');
 	const scrollGallery = async () => {
 		const gallery = document.querySelector('.section-layout.section-scrollbox.scrollable-y.scrollable-show'),
 				loading = document.querySelector('.section-loading-spinner');
-		let scrolling = true ;
+		let scrolling = true ,
+			c = 0;
 		
 		while(scrolling) {
 			gallery.scrollTo(0, gallery.scrollHeight);
 			await new Promise(resolve => setTimeout(resolve, 1000));
 			
 			scrolling = loading.parentElement.classList.contains('noprint') ;
-						
+
+			if(gallery.scrollHeight == 0 && c > 3) {
+				break;
+			}
+			c++;
+			console.log(c);
 			console.log(scrolling);
 			console.log(gallery.scrollHeight);
 		}
@@ -59,7 +65,7 @@ const http = require('http');
 		await page.waitForSelector('.gallery-image-high-res.loaded');
 		await page.evaluate(scrollGallery);
 		
-		// await page.waitFor(500); // wait for more than 1 gallery image loaded
+		await page.waitFor(500); // wait for more than 1 gallery image loaded
 		
 		const img = await page.evaluate(() => {
 			const gallery = document.querySelectorAll('.gallery-image-high-res.loaded');
