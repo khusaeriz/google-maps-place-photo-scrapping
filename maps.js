@@ -10,14 +10,13 @@ const http = require('http');
 	}
 	
 	const getTotalPhoto = () => {
-		const totalPhoto = parseInt(document.querySelector('.gm2-body-2').innerHTML);
-		console.log(totalPhoto);
+		let xpathExpression = "//span[contains(@class, 'gm2-body-2') and string-length(text()) > 0]",
+			el = document.evaluate(xpathExpression, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE);
+			
+		const totalPhoto = parseInt(el.singleNodeValue.textContent);
+		
 		return totalPhoto;
 	};
-	
-	const scrapInfiniteScrollItems = async(page, scrollDelay = 100) => {
-		
-	}
 	
 	(async () => {
 		const browser = await puppeteer.launch({headless : false});
@@ -25,21 +24,20 @@ const http = require('http');
 		await page.goto(SITE_LINK);
 		await page.waitForSelector('.section-image-pack-image-container');
 		
-		console.log(await page.evaluate(getTotalPhoto));
 		await page.evaluate(() => {
 			document.querySelector('.section-image-pack-image-container').click();
 		});
-		// await page.click('.section-image-pack-image-container');
+		// await page.click('.section-image-pack-image-container'); // error on ubuntu server 16.04
 		await page.waitForSelector('.gallery-image-high-res.loaded');
-		await page.waitFor(500);
+		await page.waitFor(500); // wait more than 1 gallery image loaded
 		
 		const img = await page.evaluate(() => {
 			const gallery = document.querySelectorAll('.gallery-image-high-res.loaded');
 			let imgs = [];
-			gallery.forEach(foto => {
-				let bgUrl = foto.style.backgroundImage;
-				let url = bgUrl.substr(5);
-				url = url.substr(0, url.length - 2);
+			gallery.forEach(photo => {
+				let bgUrl = photo.style.backgroundImage;
+				let url = bgUrl.substr(5).substr(0, bgUrl.length -7); // remove url('
+				// url = url.substr(0, url.length - 2); // remove ')
 				imgs.push(url);
 			});
 			
@@ -48,6 +46,6 @@ const http = require('http');
 		});
 		
 		console.log(JSON.stringify(img));
-		// await browser.close();
+		await browser.close();
 	})();
 })();
