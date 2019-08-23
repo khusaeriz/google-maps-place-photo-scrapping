@@ -1,5 +1,30 @@
 {
   "dependencies": {
     "puppeteer": "^1.19.0"
-  }
+  },
+  "name": "google-maps-place-photo-scrapping",
+  "description": "Scrapping photo of google maps place  \r Usage : node maps.js google-maps-url",
+  "version": "1.0.0",
+  "main": "maps.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khusaeriz/google-maps-place-photo-scrapping.git"
+  },
+  "keywords": [
+    "scrapping",
+    "google",
+    "maps",
+    "photo\u001b[1;5D\u001b[D\u001b[1;5D\u001b[D\u001b[Dplace",
+    "photo"
+  ],
+  "author": "Khusaeriz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/khusaeriz/google-maps-place-photo-scrapping/issues"
+  },
+  "homepage": "https://github.com/khusaeriz/google-maps-place-photo-scrapping#readme"
 }
